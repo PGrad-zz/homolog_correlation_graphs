@@ -1,0 +1,24 @@
+{
+  "name": "homolog_dist_graphs",
+  "version": "1.0.0",
+  "description": "Graphs to find relation between correlation and taxonomic distance.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Paul Grad",
+  "license": "ISC",
+  "dependencies": {
+    "cytoscape": "^3.1.0",
+    "express": "^4.15.3",
+    "http": "0.0.0",
+    "jquery": "^3.2.1",
+    "jsdom": "^10.1.0",
+    "mathjs": "^3.13.1",
+    "requirejs": "^2.3.3"
+  },
+  "devDependencies": {
+    "gulp-jsfuck": "^0.2.1",
+    "reload": "^1.1.5"
+  }
+}
