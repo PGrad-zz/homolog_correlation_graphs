@@ -13,19 +13,21 @@ define(function (require) {
                id.includes(":") ? 35 :
                                   200;
     }
-    function loadJson(json_file, callback) {
-        var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-        xobj.open('GET', json_file, true);
-        xobj.onreadystatechange = function() {
-            if (xobj.readyState == 4 && xobj.status == "200") {
+    function loadJson(json_file) {
+        return new Promise((resolve, reject) => {
+            var xobj = new XMLHttpRequest();
+            xobj.overrideMimeType("application/json");
+            xobj.open('GET', json_file, true);
+            xobj.onreadystatechange = function() {
+                if (xobj.readyState == 4 && xobj.status == "200") {
 
-                // .open will NOT return a value but simply returns undefined in async mode so use a callback
-                callback(xobj.responseText);
+                    // .open will NOT return a value but simply returns undefined in async mode so use a callback
+                    resolve(xobj.responseText);
 
-            }
-        };
-        xobj.send(null);
+                }
+            };
+            xobj.send(null);
+        });
     }
     function setDimensions() {
         console.log(window.innerHeight + " " + window.innerWidth);
@@ -123,8 +125,11 @@ define(function (require) {
       wheelSensitivity: 1,
       pixelRatio: 'auto'
     });
-    loadJson('../resources/antihomolog_correlation.json', (json) => {
-        var node_json = JSON.parse(json);
+    let homologPromise = loadJson('../resources/antihomolog_correlation.json');
+    let proportionJson = loadJson('../resources/proportion.json');
+    Promise.all([homologPromise, proportionJson]).then((values) => {
+        var node_json = JSON.parse(values[0]);
+        var proportion_json = JSON.parse(values[1]);
         var center = {position: {x: 0, y: 0}};
         var L1 = [], L1_dist = 13440, species;
         var homologs, L2, L2_dist = 3500, L2_size = 100;
@@ -136,15 +141,18 @@ define(function (require) {
         for(var i = 0; i < L1.length; ++i) {
             species = L1[i].data.id;
             homologs = [];
+            homolog_names = [];
             L2 = [];
-            for(var homolog in node_json[species])
-                homologs.push({ name: homolog, dist: L2_dist, size: L2_size });
+            for(var homolog in node_json[species]) {
+                homologs.push({ name: homolog + ":" + proportion_json[species][homolog], dist: L2_dist, size: L2_size });
+                homolog_names.push(homolog);
+            }
             L2 = make_homolog_star(cy, L1[i], homologs);
             cy.add(L2);
             for(var s = 0; s < L2.length; ++s) {
                 L3 = [];
                 vals = [];
-                species_dists = node_json[species][L2[s].data.id];
+                species_dists = node_json[species][homolog_names[i]];
                 for(var species2 in species_dists) {
                     L3.push({name: species2 + i.toString() + ":" + s.toString(), dist: species_dists[species2] * L3_dist, size: L3_size});
                     vals.push(species_dists[species2]);

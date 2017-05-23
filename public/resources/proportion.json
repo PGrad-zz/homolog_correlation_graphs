@@ -1,0 +1,76 @@
+{
+  "AThaliana": {
+      "AThaliana_sub_AThaliana-DMelanogaster": "31182/35194",
+      "AThaliana_sub_AThaliana-HSapiens": "30123/35194",
+      "AThaliana_sub_CElegans-AThaliana": "32060/35194",
+      "AThaliana_sub_MMusculus-AThaliana": "30108/35194",
+      "AThaliana_sub_RNorvegicus-AThaliana": "30202/35194",
+      "AThaliana_sub_SCerevisiae-AThaliana": "32746/35194",
+      "AThaliana_sub_SPombe-AThaliana": "32432/35194"
+  },
+  "CElegans": {
+      "CElegans_sub_CElegans-AThaliana": "6196/7873",
+      "CElegans_sub_CElegans-DMelanogaster": "3659/7873",
+      "CElegans_sub_CElegans-HSapiens": "2808/7873",
+      "CElegans_sub_CElegans-MMusculus": "2785/7873",
+      "CElegans_sub_CElegans-SCerevisiae": "6679/7873",
+      "CElegans_sub_RNorvegicus-CElegans": "2923/7873",
+      "CElegans_sub_SPombe-CElegans": "6461/7873"
+  },
+  "DMelanogaster": {
+      "DMelanogaster_sub_AThaliana-DMelanogaster": "30939/39974",
+      "DMelanogaster_sub_CElegans-DMelanogaster": "21234/39974",
+      "DMelanogaster_sub_DMelanogaster-HSapiens": "13395/39974",
+      "DMelanogaster_sub_MMusculus-DMelanogaster": "13479/39974",
+      "DMelanogaster_sub_RNorvegicus-DMelanogaster": "13999/39974",
+      "DMelanogaster_sub_SCerevisiae-DMelanogaster": "30376/39974",
+      "DMelanogaster_sub_SPombe-DMelanogaster": "30006/39974"
+  },
+  "HSapiens": {
+      "HSapiens_sub_AThaliana-HSapiens": "177316/242388",
+      "HSapiens_sub_CElegans-HSapiens": "133569/242388",
+      "HSapiens_sub_DMelanogaster-HSapiens": "102752/242388",
+      "HSapiens_sub_HSapiens-HSapiens": "3176/242388",
+      "HSapiens_sub_MMusculus-HSapiens": "3176/242388",
+      "HSapiens_sub_RNorvegicus-HSapiens": "5377/242388",
+      "HSapiens_sub_SCerevisiae-HSapiens": "180770/242388",
+      "HSapiens_sub_SPombe-HSapiens": "174293/242388"
+  },
+  "MMusculus": {
+      "MMusculus_sub_CElegans-MMusculus": "22610/33262",
+      "MMusculus_sub_MMusculus-AThaliana": "26501/33262",
+      "MMusculus_sub_MMusculus-DMelanogaster": "17949/33262",
+      "MMusculus_sub_MMusculus-HSapiens": "1247/33262",
+      "MMusculus_sub_MMusculus-SCerevisiae": "27974/33262",
+      "MMusculus_sub_RNorvegicus-MMusculus": "1667/33262",
+      "MMusculus_sub_SPombe-MMusculus": "26648/33262"
+  },
+  "RNorvegicus": {
+      "RNorvegicus_sub_RNorvegicus-AThaliana": "3325/4615",
+      "RNorvegicus_sub_RNorvegicus-CElegans": "3156/4615",
+      "RNorvegicus_sub_RNorvegicus-DMelanogaster": "1712/4615",
+      "RNorvegicus_sub_RNorvegicus-HSapiens": "206/4615",
+      "RNorvegicus_sub_RNorvegicus-MMusculus": "127/4615",
+      "RNorvegicus_sub_RNorvegicus-SCerevisiae": "3913/4615",
+      "RNorvegicus_sub_RNorvegicus-SPombe": "3694/4615"
+  },
+  "SCerevisiae": {
+      "SCerevisiae_sub_CElegans-SCerevisiae": "328280/494561",
+      "SCerevisiae_sub_MMusculus-SCerevisiae": "262537/494561",
+      "SCerevisiae_sub_RNorvegicus-SCerevisiae": "267513/494561",
+      "SCerevisiae_sub_SCerevisiae-AThaliana": "355581/494561",
+      "SCerevisiae_sub_SCerevisiae-DMelanogaster": "296573/494561",
+      "SCerevisiae_sub_SCerevisiae-HSapiens": "261617/494561",
+      "SCerevisiae_sub_SCerevisiae-SCerevisiae": "296573/494561",
+      "SCerevisiae_sub_SPombe-SCerevisiae": "189071/494561"
+  },
+  "SPombe": {
+      "SPombe_sub_RNorvegicus-SPombe": "33743/57035",
+      "SPombe_sub_SPombe-AThaliana": "42364/57035",
+      "SPombe_sub_SPombe-CElegans": "40323/57035",
+      "SPombe_sub_SPombe-DMelanogaster": "36522/57035",
+      "SPombe_sub_SPombe-HSapiens": "33560/57035",
+      "SPombe_sub_SPombe-MMusculus": "33275/57035",
+      "SPombe_sub_SPombe-SCerevisiae": "28372/57035"
+  }
+}
