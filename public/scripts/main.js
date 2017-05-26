@@ -25,22 +25,18 @@ define(function (require) {
     }
     function loadJson(json_file) {
         return new Promise((resolve, reject) => {
-            let xobj = new XMLHttpRequest();
-            xobj.overrideMimeType("application/json");
-            xobj.open('GET', json_file, true);
-            xobj.onreadystatechange = function() {
-                if (xobj.readyState == 4 && xobj.status == "200") {
-
-                    // .open will NOT return a value but simply returns undefined in async mode so use a callback
-                    resolve(xobj.responseText);
-
-                }
-            };
-            xobj.send(null);
+            if(window.Worker) {
+                let worker = new Worker("./scripts/worker.js");
+                worker.onmessage = (json) => {
+                    resolve(json.data);
+                };
+                worker.postMessage([json_file]);
+            } else {
+                reject("WebWorkers not supported");
+            }
         });
     }
     function setDimensions() {
-        console.log(window.innerHeight + " " + window.innerWidth);
         document.getElementById('cy').style.height = window.innerHeight.toString() + "px";
         document.getElementById('cy').style.width = window.innerWidth.toString() + "px";
         cy.center();
@@ -67,9 +63,7 @@ define(function (require) {
             edges.push({ group: "edges", data: { id: periphs[i].data.id + "_edge", source: center.data.id, target: periphs[i].data.id, label: vals[i] } });
         cy.add(edges);
     }
-    function init(node_val, proportion_val, center) {
-        let node_json = JSON.parse(node_val);
-        let proportion_json = JSON.parse(proportion_val);
+    function init(node_json, proportion_json, center) {
         let L1 = [], L1_dist = 13440, species;
         let homologs, L2, L2_dist = 3500, L2_size = 100;
         let L3, species_dists, L3_dist = 420, L3_size = 10;
@@ -82,7 +76,6 @@ define(function (require) {
             homologs = [];
             homolog_names = [];
             L2 = [];
-            console.log(species);
             for(let homolog in node_json[species]) {
                 homologs.push({ name: homolog + ":" + proportion_json[species][homolog], dist: L2_dist, size: L2_size });
                 homolog_names.push(homolog);
@@ -104,6 +97,16 @@ define(function (require) {
             }
         }
         setDimensions();
+    }
+    function switchType(values, center) {
+        cy.remove("[id!='']");
+        type = (type + 1) % 2;
+        CENTER_LABEL = type_map[type] + ": Click to Change";
+        cy.add({ group: "nodes", 
+                 data: { id: CENTER_NAME },
+                 position: { x: center.position.x, y: center.position.y }
+               });
+        init(values[type], values[2], center);
     }
     window.addEventListener("resize", setDimensions);
     let cy = cytoscape({
@@ -173,28 +176,23 @@ define(function (require) {
       wheelSensitivity: 1,
       pixelRatio: 'auto'
     });
-    let homologPromise = loadJson('../resources/homolog_correlation.json');
-    let antihomologPromise = loadJson('../resources/antihomolog_correlation.json');
-    let proportionJson = loadJson('../resources/proportion.json');
-    Promise.all([antihomologPromise, homologPromise, proportionJson]).then((values) => {
-        let center = {position: {x: 0, y: 0}};
-        type = 1;
-        CENTER_LABEL = type_map[type] + ": Click to Change";
-        cy.add({ group: "nodes", 
-                 data: { id: CENTER_NAME },
-                 position: { x: center.position.x, y: center.position.y }
-               });
-        cy.on("tap", "#" + CENTER_NAME, (evt) => {
-            cy.remove("[id!='']");
-            type = (type + 1) % 2;
+    if (window.Worker) {
+        let homologPromise = loadJson('../resources/homolog_correlation.json');
+        let antihomologPromise = loadJson('../resources/antihomolog_correlation.json');
+        let proportionJson = loadJson('../resources/proportion.json');
+        Promise.all([antihomologPromise, homologPromise, proportionJson]).then((values) => {
+            let center = {position: {x: 0, y: 0}};
+            type = 1;
             CENTER_LABEL = type_map[type] + ": Click to Change";
             cy.add({ group: "nodes", 
                      data: { id: CENTER_NAME },
                      position: { x: center.position.x, y: center.position.y }
                    });
+            cy.on("tap", "#" + CENTER_NAME, (evt) => {
+                switchType(values, center);
+            });
             init(values[type], values[2], center);
+            
         });
-        init(values[type], values[2], center);
-        
-    });
+    }
 });
